@@ -1,4 +1,4 @@
-#LEVANTAR EL PROYECTO
+##LEVANTAR EL PROYECTO
 
 1-instalar python version 3.7
     (use esa porque es la que pide AWS pensando que algun dia se puede usar)

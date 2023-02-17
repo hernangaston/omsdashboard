@@ -31,15 +31,21 @@
 
 
 
-4-activar el entorno pipenv shell
+4-activar el entorno
+
+pipenv shell
 
 
 
 5-instalar los paquetes
-$ pipenv install -r requirements.txt
+
+pipenv install -r requirements.txt
 
 
 
 6-desplegar el servidor local
-    dentro de la carpeta donde donde esta el archivo manage.py correr lo siguiente:
+
+dentro de la carpeta donde donde esta el archivo manage.py correr lo siguiente:
+
+
 ### python manage.py runserver

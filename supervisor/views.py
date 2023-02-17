@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.views.generic import ListView, CreateView
 # Create your views here.
 
-from models import Operario, Maquina, OrdenDeProduccion, Articulo, Scatola
+from .models import Operario, Maquina, OrdenDeProduccion, Articulo, Scatola
 
 
 class ListaDeMaquinas(ListView):

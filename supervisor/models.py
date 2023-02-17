@@ -25,7 +25,7 @@ class Operario(AbstractClass):
 
 class Maquina(AbstractClass):    
     estado = models.CharField(max_length=100)
-    operario = models.ForeignKey(Operario, on_delete=models.SET_NULL)
+    operario = models.ForeignKey(Operario, on_delete=models.SET_NULL, null=True)
     activo_desde = models.DateTimeField()
     tiempo_actual_con_articulo = models.DateTimeField()
     cantidad_producidos = models.IntegerField()
@@ -47,7 +47,7 @@ class Articulo(AbstractClass):
     tiempo_estimado_attressaggio = models.DateTimeField()
     tiempo_real_produccion = models.DateTimeField()
     tiempo_real_attressaggio = models.DateTimeField()
-    operario_mas_rapido = models.ForeignKey(Operario, on_delete=models.SET_NULL)
+    operario_mas_rapido = models.ForeignKey(Operario, on_delete=models.SET_NULL, null=True)
     diseño = models.FileField(upload_to='pdfs_disenios')
     
     class Meta:
@@ -61,7 +61,7 @@ class OrdenDeProduccion(AbstractClass):
     fecha_caducidad = models.DateField()
     fecha_inicio_produccion = models.DateField()
     fecha_finalizado = models.DateField()
-    articulo_a_producir = models.ForeignKey(Articulo, on_delete=models.SET_NULL)
+    articulo_a_producir = models.ForeignKey(Articulo, on_delete=models.SET_NULL, null=True)
     cantidad_articulo = models.IntegerField()
     maquina_asignada = models.IntegerField()
     orden_cola_produccion = models.IntegerField() # ( -1 > pendiente /// 0 > Finalizado /// 1,2,3,4 > orden en cola produccion )
@@ -75,10 +75,10 @@ class OrdenDeProduccion(AbstractClass):
 
 class Scatola(AbstractClass):    
     nro_scatola = models.IntegerField()
-    opr = models.ForeignKey(OrdenDeProduccion, on_delete=models.SET_NULL)
+    opr = models.ForeignKey(OrdenDeProduccion, on_delete=models.SET_NULL, null=True)
     hora_inicio = models.TimeField()
     hora_fin = models.TimeField()
-    operario = models.ForeignKey(Operario, on_delete=models.SET_NULL)
+    operario = models.ForeignKey(Operario, on_delete=models.SET_NULL, null=True)
     cantidad = models.IntegerField()
     
     class Meta:

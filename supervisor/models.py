@@ -1,12 +1,9 @@
-import uuid
 from django.db import models
 
 
 # Create your models here.
 class AbstractClass(models.Model):
-    '''Base class for all models '''
-    
-    uuid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)    
+    '''Base class for all models '''    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     

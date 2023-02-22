@@ -39,8 +39,10 @@ BASE_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'supervisor'
 ]
-CREATED_APPS = ['supervisor']
+
+CREATED_APPS = []
 
 INSTALLED_APPS = BASE_APPS+CREATED_APPS
 
@@ -78,14 +80,31 @@ WSGI_APPLICATION = 'omsdashboard.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+<<<<<<< HEAD
 #DATABASES = MYSQL
 
+=======
+'''
+>>>>>>> 75545803294a558c3b99f4d0ddf6161c1551d4a2
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+'''
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'omas',
+        'USER': 'omas',
+        'PASSWORD': 'h0q3PVARPkVnlbyx',
+        'HOST': '186.65.85.243',
+    }
+}
+
 
 
 # Password validation

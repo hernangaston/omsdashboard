@@ -6,7 +6,6 @@ from django.db import models
 class AbstractClass(models.Model):
     '''Base class for all models '''
     
-    uuid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -25,10 +24,12 @@ class Operario(AbstractClass):
 
 class Maquina(AbstractClass):    
     estado = models.CharField(max_length=100)
+    nombre_maquina = models.CharField(max_length=250, null = False)
     operario = models.ForeignKey(Operario, on_delete=models.SET_NULL, null=True)
     activo_desde = models.DateTimeField()
     tiempo_actual_con_articulo = models.DateTimeField()
     cantidad_producidos = models.IntegerField()
+    maquina_automatica = models.BooleanField(default=False)
     
     class Meta:
         verbose_name = "Máquina"
@@ -46,7 +47,6 @@ class Articulo(AbstractClass):
     tiempo_estimado_produccion = models.DateTimeField()
     tiempo_estimado_attressaggio = models.DateTimeField()
     tiempo_real_produccion = models.DateTimeField()
-    tiempo_real_attressaggio = models.DateTimeField()
     operario_mas_rapido = models.ForeignKey(Operario, on_delete=models.SET_NULL, null=True)
     diseño = models.FileField(upload_to='pdfs_disenios')
     
@@ -58,6 +58,7 @@ class Articulo(AbstractClass):
         return f'{self.id}/articulo'
     
 class OrdenDeProduccion(AbstractClass):
+    nombre_OPR = models.CharField(max_length=200)
     fecha_caducidad = models.DateField()
     fecha_inicio_produccion = models.DateField()
     fecha_finalizado = models.DateField()

@@ -40,7 +40,7 @@ BASE_APPS = [
     'supervisor'
 ]
 
-CREATED_APPS = ['']
+CREATED_APPS = []
 
 INSTALLED_APPS = BASE_APPS+CREATED_APPS
 

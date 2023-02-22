@@ -1,2 +1,4 @@
 db.py
 db.sqlite3
+.env
+

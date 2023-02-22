@@ -2,9 +2,8 @@ import datetime
 
 from django.core import serializers
 from django.shortcuts import render
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView
 from django.http import HttpResponse, JsonResponse
-import json
 
 
 
@@ -25,12 +24,13 @@ class ListaDeMaquinas(ListView):
     def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
             context["title"] = "LISTADO DE MAQUINAS"
+            
             return context
         
         
 class ListaTotalDeMaquinas(ListView):
     '''
-    VISTA EN FORMA DE JSON DE LOS DATOS DE LAS MAQUINAS
+    VISTA DEVUELVE EN FORMA DE JSON DE LOS DATOS DE LAS MAQUINAS
     '''
     model = Maquina
     template_name = 'lista_de_maquinas.html'

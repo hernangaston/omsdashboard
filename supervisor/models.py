@@ -3,12 +3,8 @@ from django.db import models
 
 # Create your models here.
 class AbstractClass(models.Model):
-<<<<<<< HEAD
-    '''Base class for all models '''    
-=======
     '''Base class for all models '''
     
->>>>>>> 75545803294a558c3b99f4d0ddf6161c1551d4a2
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     

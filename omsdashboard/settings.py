@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 
-from .db import MYSQL
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -80,12 +79,7 @@ WSGI_APPLICATION = 'omsdashboard.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-<<<<<<< HEAD
-#DATABASES = MYSQL
-
-=======
 '''
->>>>>>> 75545803294a558c3b99f4d0ddf6161c1551d4a2
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',

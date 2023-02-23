@@ -99,6 +99,5 @@ def ratio_mes_json(request):
     for i in range(1,13):
         aux = random.randint(40,120)/100
         mes_ratio.append( [i, aux] )
-    print(mes_ratio)
-    
+   
     return JsonResponse(json.loads(str(mes_ratio)), safe=False)

@@ -1,11 +1,9 @@
 import random, json
-from django.http import JsonResponse
+
 from django.core import serializers
 from django.views.generic import ListView
 from django.http import HttpResponse, JsonResponse
 from itertools import chain
-
-
 
 # Create your views here.
 
@@ -48,7 +46,7 @@ def maquinas_json(request):
     FUNCION PARA DEVOLVER EN FORMATO JSON LOS DATOS DE TODAS LAS MAQUINAS
     '''
     qs = Maquina.objects.all()
-    data = serializers.serialize("json", qs)
+    data = serializers.serialize("json", qs, use_natural_foreign_keys=True)
     return HttpResponse(data, content_type='application/json', status=200)
 
 def maquina_opr_json(request, id):

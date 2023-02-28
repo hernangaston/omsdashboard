@@ -26,7 +26,7 @@ SECRET_KEY = 'v22_)^wi5pev8zn%rqral-$^6(2%ng60zy5f2!6mi5-sx!hjq='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['186.65.87.251']
 
 
 # Application definition
@@ -94,7 +94,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'omas',
         'USER': 'omas',
-        'PASSWORD': 'h0q3PVARPkVnlbyx',
+        'PASSWORD': 'wguqiSyfgvsgxTKl',
         'HOST': '186.65.85.243',
     }
 }

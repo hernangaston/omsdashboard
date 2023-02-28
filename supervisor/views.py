@@ -57,7 +57,7 @@ def maquina_opr_json(request, id):
     oprs = OrdenDeProduccion.objects.filter(maquina_asignada=id)    
     combined = list(chain(maquina,oprs))
 
-    data = serializers.serialize("json",combined)
+    data = serializers.serialize("json",combined, use_natural_foreign_keys=True)
     return HttpResponse(data,content_type='application/json', status=200)
 
 

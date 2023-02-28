@@ -19,6 +19,12 @@ class Operario(AbstractClass):
     
     def get_absolute_url(self):
         return f'{self.id}/operario'    
+    
+    def natural_key(self):
+        return (self.nombre_completo)
+    
+    def __str__(self):
+        return self.nombre_completo
 
 
 class Maquina(AbstractClass):    

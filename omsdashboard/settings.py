@@ -28,7 +28,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['186.65.87.251']
 
-
 # Application definition
 
 BASE_APPS = [
@@ -38,10 +37,9 @@ BASE_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'supervisor'
 ]
 
-CREATED_APPS = []
+CREATED_APPS = ['supervisor']
 
 INSTALLED_APPS = BASE_APPS+CREATED_APPS
 

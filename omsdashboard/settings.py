@@ -28,7 +28,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['186.65.87.251']
 
-
 # Application definition
 
 BASE_APPS = [
@@ -38,12 +37,13 @@ BASE_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'supervisor'
 ]
 
-CREATED_APPS = []
+THIRD_PARTY_APPS = ['corsheaders']
 
-INSTALLED_APPS = BASE_APPS+CREATED_APPS
+CREATED_APPS = ['supervisor']
+
+INSTALLED_APPS = BASE_APPS+CREATED_APPS+THIRD_PARTY_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -53,7 +53,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+'''CORS_ORIGIN_WHITELIST = (
+  'http://localhost:8000',
+)'''
 
 ROOT_URLCONF = 'omsdashboard.urls'
 

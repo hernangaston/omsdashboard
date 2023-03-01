@@ -1,11 +1,9 @@
 import random, json
-from django.http import JsonResponse
+
 from django.core import serializers
 from django.views.generic import ListView
 from django.http import HttpResponse, JsonResponse
 from itertools import chain
-
-
 
 # Create your views here.
 
@@ -48,7 +46,7 @@ def maquinas_json(request):
     FUNCION PARA DEVOLVER EN FORMATO JSON LOS DATOS DE TODAS LAS MAQUINAS
     '''
     qs = Maquina.objects.all()
-    data = serializers.serialize("json", qs)
+    data = serializers.serialize("json", qs, use_natural_foreign_keys=True)
     return HttpResponse(data, content_type='application/json', status=200)
 
 def maquina_opr_json(request, id):
@@ -59,7 +57,7 @@ def maquina_opr_json(request, id):
     oprs = OrdenDeProduccion.objects.filter(maquina_asignada=id)    
     combined = list(chain(maquina,oprs))
 
-    data = serializers.serialize("json",combined)
+    data = serializers.serialize("json",combined, use_natural_foreign_keys=True)
     return HttpResponse(data,content_type='application/json', status=200)
 
 
@@ -99,6 +97,5 @@ def ratio_mes_json(request):
     for i in range(1,13):
         aux = random.randint(40,120)/100
         mes_ratio.append( [i, aux] )
-    print(mes_ratio)
-    
+   
     return JsonResponse(json.loads(str(mes_ratio)), safe=False)

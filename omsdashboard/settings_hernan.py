@@ -40,9 +40,17 @@ BASE_APPS = [
     'django.contrib.staticfiles',
 ]
 
+THIRD_PARTY_APPS = ['corsheaders']
+
 CREATED_APPS = ['supervisor']
 
-INSTALLED_APPS = BASE_APPS+CREATED_APPS
+INSTALLED_APPS = BASE_APPS+CREATED_APPS+THIRD_PARTY_APPS
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+'''CORS_ORIGIN_WHITELIST = (
+  'http://localhost:8000',
+)'''
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -52,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'omsdashboard.urls'
@@ -78,7 +87,7 @@ WSGI_APPLICATION = 'omsdashboard.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-'''DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'omas',
@@ -87,13 +96,14 @@ WSGI_APPLICATION = 'omsdashboard.wsgi.application'
         'HOST': config('MYSQL_HOST'),
         'PORT':'3306'        
     }
-}'''
-DATABASES = {
+}
+
+'''DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
-}
+}'''
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

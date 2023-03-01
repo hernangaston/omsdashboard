@@ -26,8 +26,7 @@ SECRET_KEY = 'v22_)^wi5pev8zn%rqral-$^6(2%ng60zy5f2!6mi5-sx!hjq='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['186.65.87.251']
 
 # Application definition
 
@@ -38,7 +37,6 @@ BASE_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'supervisor'
 ]
 
 CREATED_APPS = [
@@ -57,19 +55,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
 ]
 
-'''
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:8000',
-    'http://localhost:5173',
-    'http://186.65.87.251:8000'
+CORS_ORIGIN_ALLOW_ALL = True
 
-
-]
-'''
-CORS_ALLOW_ALL_ORIGINS:True
+'''CORS_ORIGIN_WHITELIST = (
+  'http://localhost:8000',
+)'''
 
 ROOT_URLCONF = 'omsdashboard.urls'
 
@@ -94,6 +86,16 @@ WSGI_APPLICATION = 'omsdashboard.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+
+
+'''DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}'''
+
+
 
 DATABASES = {
     'default': {

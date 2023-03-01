@@ -39,9 +39,11 @@ BASE_APPS = [
     'django.contrib.staticfiles',
 ]
 
+THIRD_PARTY_APPS = ['corsheaders']
+
 CREATED_APPS = ['supervisor']
 
-INSTALLED_APPS = BASE_APPS+CREATED_APPS
+INSTALLED_APPS = BASE_APPS+CREATED_APPS+THIRD_PARTY_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -51,7 +53,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+'''CORS_ORIGIN_WHITELIST = (
+  'http://localhost:8000',
+)'''
 
 ROOT_URLCONF = 'omsdashboard.urls'
 

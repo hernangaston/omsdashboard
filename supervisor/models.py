@@ -44,14 +44,14 @@ class Maquina(AbstractClass):
         return f'{self.id}/maquina'
     
 class Articulo(AbstractClass):
-    numero = models.IntegerField()
-    nombre = models.CharField(max_length=150)
-    materia_prima_nombre = models.CharField(max_length=150)
-    cantidad_area = models.IntegerField()
-    cantidad_deposito = models.IntegerField()
-    tiempo_estimado_produccion = models.IntegerField(null=True)
-    tiempo_estimado_attressaggio = models.IntegerField(null=True)
-    tiempo_real_produccion = models.IntegerField(null=True)
+    numero = models.BigIntegerField()#70030005120
+    nombre = models.CharField(max_length=150)#CARTER
+    materia_prima_nombre = models.BigIntegerField()#70020002200
+    cantidad_area = models.IntegerField()#1300
+    cantidad_deposito = models.IntegerField()#1000
+    tiempo_estimado_produccion = models.IntegerField(default=0)
+    tiempo_estimado_attressaggio = models.IntegerField(default=0)
+    tiempo_real_produccion = models.IntegerField(default=0)
     operario_mas_rapido = models.ForeignKey(Operario, on_delete=models.SET_NULL, null=True)
     diseño = models.FileField(upload_to='pdfs_disenios')
     
@@ -64,10 +64,10 @@ class Articulo(AbstractClass):
     
 class OrdenDeProduccion(AbstractClass):
     nombre_OPR = models.CharField(max_length=200)
-    fecha_caducidad = models.DateField()
+    fecha_caducidad = models.DateField(null=True)
     fecha_inicio_produccion = models.DateField(null=True)
     fecha_finalizado = models.DateField(null=True)
-    articulo_a_producir = models.ForeignKey(Articulo, on_delete=models.SET_NULL, null=True)
+    numero_articulo_a_producir = models.BigIntegerField(null=True)
     cantidad_articulo = models.IntegerField()
     maquina_asignada = models.IntegerField()
     orden_cola_produccion = models.IntegerField() # ( -1 > pendiente /// 0 > Finalizado /// 1,2,3,4 > orden en cola produccion )

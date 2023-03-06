@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import *
-
+from .helpers import *
 urlpatterns = [
     path('lista_maquinas/', ListaDeMaquinas.as_view(), name='lista-maquinas'),
     path('listado_datos_maquinas/', ListaTotalDeMaquinas.as_view(), name='lista-maquinas'),
@@ -11,7 +11,11 @@ urlpatterns = [
     path('maquina_opr_json/<int:id>', maquina_opr_json, name='maquina-opr-json'),
     
     path('oprs_json/', oprs_json, name='oprs-json'),
-    path('opr_json/<int:id>', opr_json, name='opr-json'),
+    path('opr_json/<int:id>', opr_json, name='opr-json'),    
+    #urls hernan
+    path('opr_list/', CardsOprListView.as_view(), name='opr-list'),
+    #path('cargar_oprs/', cargar_datos, name='opr-carga'),
+    
     
     path('operarios_json/', operarios_json, name='operarios-json'),
 

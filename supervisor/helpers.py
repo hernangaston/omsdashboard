@@ -1,11 +1,12 @@
 import csv
-from django.core.exceptions import ObjectDoesNotExist
-
-from django.core import serializers
-from django.http import HttpResponse, JsonResponse
-
 from .models import *
+
+
+
 def leer_csv(archivo_csv):
+    '''
+    RETORNA UNA LISTA DEL CSV DE OPR'S
+    '''
     lista_de_listas = []
     with open(archivo_csv, 'r') as f:
         lector_csv = csv.reader(f)
@@ -15,14 +16,21 @@ def leer_csv(archivo_csv):
         return lista_de_listas
     
 def leer_csv_art(archivo_csv):
+    '''
+    LISTA CON CSV'S DE ARTICULOS
+    '''
     lista_de_listas = []
     with open(archivo_csv, 'r') as f:
-        lector_csv = csv.reader(f)
+        lector_csv = csv.reader(f, delimiter=';')
         for fila in lector_csv:
             lista_de_listas.append(fila)
+        
         return lista_de_listas
     
 def cargar_datos(request):
+    ''''
+    CARGA LAS OPR'S A LA BBDD
+    '''
     lst = leer_csv('/home/hernan/proyectos/omassrl/omsdashboard/docs/supervisor_ordendeproduccion.csv')       
     for l in lst:
         print(l)
@@ -33,7 +41,6 @@ def cargar_datos(request):
                 #opr.save()                
                 print(f'{opr.nombre_OPR} con articulo nro: {l[4]} agregado')
         except:
-            #print(f'no existe opr nro: {l[0]} se procede a crear: ')
             opr = OrdenDeProduccion(nombre_OPR=str(l[4]),
                                     cantidad_articulo=int(l[8]),
                                     maquina_asignada=int(l[9]),
@@ -41,31 +48,37 @@ def cargar_datos(request):
                                     numero_articulo_a_producir=int(l[11])
                                     )
             #opr.save()
-            print(f'{opr.nombre_OPR} con articulo nro: {l[4]} creado')
-            
-    lista_opr = OrdenDeProduccion.objects.all()
-    data = serializers.serialize("json", lista_opr)
-    return HttpResponse(data,content_type='application/json', status=200)
 
 def cargar_datos_articulos(request):
-    lst = leer_csv_art('/home/hernan/proyectos/omassrl/omsdashboard/docs/supervisor_articulo2.csv')       
+    '''
+    CARGA LOS ARTICULOS A LA BASE DE DATOS
+    '''
+    lst = leer_csv_art('/home/hernan/proyectos/omassrl/omsdashboard/docs/supervisor_articulo3.csv')       
     for datos in lst:
+        tmp_prod = float(datos[5].replace(",", "."))
+        tmp_real = float(datos[7].replace(",", "."))
         try:
-            operario = Operario.objects.get(pk=int(datos[11]))
+            operario = Operario.objects.get(pk=int(datos[8]))
         except:
             operario = None
-        articulo = Articulo(numero=int(datos[0]),
-            nombre=str(datos[1]),#CARTER
-            materia_prima_nombre=int(datos[2]),#70020002200,
-            cantidad_area=int(datos[3]),#1300
-            cantidad_deposito=int(datos[4]),#1000
-            tiempo_estimado_produccion=int(datos[5]),
-            tiempo_estimado_attressaggio=int(datos[6]),
-            tiempo_real_produccion=int(datos[7]),
-            operario_mas_rapido=operario
-            )
-        articulo.save()
+        try:
+            art = Articulo.objects.get(numero=int(datos[0])) 
+            art.tiempo_estimado_produccion=tmp_prod,
+            art.tiempo_estimado_attressaggio=int(datos[6])
+            art.tiempo_real_produccion=tmp_real
+            art.operario_mas_rapido=operario
+            #art.save()
+        except:
+            articulo = Articulo(numero=int(datos[0]),
+                nombre=str(datos[1]),#CARTER
+                materia_prima_nombre=int(datos[2]),#70020002200,
+                cantidad_area=int(datos[3]),#1300
+                cantidad_deposito=int(datos[4]),#1000
+                tiempo_estimado_produccion=tmp_prod,
+                tiempo_estimado_attressaggio=int(datos[6]),
+                tiempo_real_produccion=tmp_real,
+                operario_mas_rapido=operario
+                )
+            
+            #articulo.save()
     
-    lista_final = []
-    data = serializers.serialize("json", lista_final)
-    return HttpResponse(data,content_type='application/json', status=200)

@@ -49,9 +49,9 @@ class Articulo(AbstractClass):
     materia_prima_nombre = models.BigIntegerField()#70020002200
     cantidad_area = models.IntegerField()#1300
     cantidad_deposito = models.IntegerField()#1000
-    tiempo_estimado_produccion = models.IntegerField(default=0)
+    tiempo_estimado_produccion = models.FloatField(default=0)
     tiempo_estimado_attressaggio = models.IntegerField(default=0)
-    tiempo_real_produccion = models.IntegerField(default=0)
+    tiempo_real_produccion = models.FloatField(default=0)
     operario_mas_rapido = models.ForeignKey(Operario, on_delete=models.SET_NULL, null=True)
     diseño = models.FileField(upload_to='pdfs_disenios')
     

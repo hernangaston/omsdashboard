@@ -68,11 +68,9 @@ def maquinas_json(request):
             new_dict['opr_actual'] = oprs[0].nombre_OPR
         else:
             new_dict['opr_actual'] = ''
-        
-        lista_rta.append(json.dumps(new_dict))
-            
-    #data = serializers.serialize("json", qs, use_natural_foreign_keys=True)
-    return HttpResponse(lista_rta, content_type='application/json', status=200)
+      
+        lista_rta.append(json.loads(json.dumps(new_dict)))
+    return JsonResponse(lista_rta, safe=False)
 
 def maquina_opr_json(request, id):
     '''
@@ -149,9 +147,8 @@ class CardsOprListView(ListView):
                     articulo_cantidad_deposito=art.cantidad_deposito, articulo_cantidad_total=art.cantidad_area+art.cantidad_deposito, \
                     articulo_tiempo_produccion=art.tiempo_estimado_produccion,articulo_tiempo_attressaggio=art.tiempo_estimado_attressaggio,\
                     articulo_tiempo_real=art.tiempo_real_produccion,articulo_operario_mas_rapido=operario)
-            lista_respuesta.append(json.dumps(d))
-        
-        return HttpResponse(lista_respuesta,content_type='application/json', status=200)
+            lista_respuesta.append(json.loads(json.dumps(d)))
+        return JsonResponse(lista_respuesta, safe=False)
 
 class CardsOprListMaquinaView(ListView):
     class Meta:
@@ -189,9 +186,8 @@ class CardsOprListMaquinaView(ListView):
                     articulo_cantidad_deposito=art.cantidad_deposito, articulo_cantidad_total=art.cantidad_area+art.cantidad_deposito, \
                     articulo_tiempo_produccion=art.tiempo_estimado_produccion,articulo_tiempo_attressaggio=art.tiempo_estimado_attressaggio,\
                     articulo_tiempo_real=art.tiempo_real_produccion,articulo_operario_mas_rapido=operario)
-            lista_respuesta.append(json.dumps(d))
-        
-        return HttpResponse(lista_respuesta,content_type='application/json', status=200)
+            lista_respuesta.append(json.loads(json.dumps(d)))
+        return JsonResponse(lista_respuesta, safe=False)
     
 #               OPERARIOS             ------------------------------------------
 def operarios_json(request):

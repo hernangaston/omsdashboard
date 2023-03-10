@@ -54,7 +54,7 @@ def maquinas_json(request):
         new_dict = dict(nombre_maquina=maq.nombre_maquina, estado=maq.estado,operario=maq.operario.nombre_completo,\
                 activo_desde=maq.activo_desde,tiempo_actual_con_articulo=maq.tiempo_actual_con_articulo, cantidad_producidos=maq.cantidad_producidos,\
                 maquina_automatica=maq.maquina_automatica)
-        if(len(oprs)>2):
+        if(len(oprs)):
             new_dict['opr_actual_nombre_OPR'] = oprs[0].nombre_OPR
             new_dict['opr_actual_fecha_caducidad'] = oprs[0].fecha_caducidad
             new_dict['opr_actual_fecha_inicio_produccion'] = oprs[0].fecha_inicio_produccion
@@ -63,11 +63,18 @@ def maquinas_json(request):
             new_dict['opr_actual_cantidad_articulo'] = oprs[0].cantidad_articulo
             new_dict['opr_actual_maquina_asignada'] = oprs[0].maquina_asignada
             new_dict['opr_actual_orden_cola_produccion'] = oprs[0].orden_cola_produccion
-            new_dict['siguiente_opr']= oprs[1].nombre_OPR
-        elif(len(oprs)<2 and len(oprs)>=1):
-            new_dict['opr_actual'] = oprs[0].nombre_OPR
+            try:
+                art = Articulo.objects.get(numero=oprs[0].numero_articulo_a_producir)
+                new_dict['opr_actual_articulo_nombre'] = art.nombre
+            except:
+                print('no hay articulo en opr')
+            try:
+                new_dict['siguiente_opr']= oprs[1].nombre_OPR
+            except:
+                new_dict['siguiente_opr']= None
         else:
-            new_dict['opr_actual'] = ''
+            new_dict['opr_actual_nombre_OPR'] = None
+        
       
         lista_rta.append(json.loads(json.dumps(new_dict)))
     return JsonResponse(lista_rta, safe=False)

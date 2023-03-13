@@ -53,7 +53,7 @@ class Articulo(AbstractClass):
     tiempo_estimado_attressaggio = models.IntegerField(default=0)
     tiempo_real_produccion = models.FloatField(default=0)
     operario_mas_rapido = models.ForeignKey(Operario, on_delete=models.SET_NULL, null=True)
-    diseño = models.FileField(upload_to='pdfs_disenios')
+    disenio = models.FileField(upload_to='pdfs_disenios')
     
     class Meta:
         verbose_name = "Artículo"

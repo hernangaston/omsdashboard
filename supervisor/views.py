@@ -193,7 +193,7 @@ class CardsOprListMaquinaView(ListView):
                     articulo_nombre_articulo=art.nombre, articulo_materia_prima_nombre=art.materia_prima_nombre, articulo_cantidad_area=art.cantidad_area,\
                     articulo_cantidad_deposito=art.cantidad_deposito, articulo_cantidad_total=art.cantidad_area+art.cantidad_deposito, \
                     articulo_tiempo_produccion=art.tiempo_estimado_produccion,articulo_tiempo_attressaggio=art.tiempo_estimado_attressaggio,\
-                    articulo_tiempo_real=art.tiempo_real_produccion,articulo_operario_mas_rapido=operario)
+                    articulo_tiempo_real=art.tiempo_real_produccion,articulo_operario_mas_rapido=operario, articulo_disenio=art.disenio.name)
             lista_respuesta.append(json.loads(json.dumps(d)))
         return JsonResponse(lista_respuesta, safe=False)
     

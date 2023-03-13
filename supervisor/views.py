@@ -46,6 +46,7 @@ def maquinas_json(request):
     FUNCION PARA DEVOLVER EN FORMATO JSON LOS DATOS DE TODAS LAS MAQUINAS
     MODIFICADO PARA QUEDEVUELVA nombre_OPR actual y siguiente
     '''
+    
     lista_rta = []
     qs = Maquina.objects.all()
     

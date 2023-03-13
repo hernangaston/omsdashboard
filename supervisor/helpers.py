@@ -27,7 +27,7 @@ def leer_csv_art(archivo_csv):
         
         return lista_de_listas
     
-def cargar_datos(request):
+def cargar_datos():
     ''''
     CARGA LAS OPR'S A LA BBDD
     '''
@@ -49,7 +49,7 @@ def cargar_datos(request):
                                     )
             #opr.save()
 
-def cargar_datos_articulos(request):
+def cargar_datos_articulos():
     '''
     CARGA LOS ARTICULOS A LA BASE DE DATOS
     '''
@@ -81,4 +81,28 @@ def cargar_datos_articulos(request):
                 )
             
             #articulo.save()
-    
+            
+def cargar_datos_maquinas():
+    lista = leer_csv_art('/home/hernan/proyectos/omassrl/omsdashboard/docs/supervisor_maquina.csv')
+    for lst in lista:
+        try:
+            maquina = Maquina.objects.get(nombre_maquina__icontains=str(lst[0]))
+        except:
+            pass
+        if maquina:
+            maquina.estado = str(lst[2])
+            try:
+                op = Operario.objects.get(pk=int(lst[6]))
+            except:
+                pass
+            if op:
+                maquina.operario=op
+            else:
+                maquina.operario=None
+            maquina.activo_desde=int(lst[3])
+            maquina.tiempo_actual_con_articulo=int(lst[4])
+            maquina.cantidad_producidos=int(lst[5])
+            if int(lst[1]):
+                maquina.maquina_automatica=True
+            
+            #maquina.save()

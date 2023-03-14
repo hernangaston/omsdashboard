@@ -4,6 +4,8 @@ from django.core import serializers
 from django.views.generic import ListView
 from django.http import HttpResponse, JsonResponse
 from itertools import chain
+from django.views.decorators.csrf import csrf_protect
+
 
 # Create your views here.
 
@@ -91,8 +93,76 @@ def maquina_opr_json(request, id):
     data = serializers.serialize("json",combined, use_natural_foreign_keys=True)
     return HttpResponse(data,content_type='application/json', status=200)
 
-
 #               OPR                  ------------------------------------------
+
+
+@crsf_protect
+def maquina_opr_actualiza(request, id):
+
+    '''
+    POST = {
+        "data" : [ (101,1),(102,3),(202,-1)]
+    }
+    '''
+
+    if(request.POST):
+        print(request.POST)
+        
+        oprs = OrdenDeProduccion.objects.filter(maquina_asignada = id)
+        
+        salvado = False 
+        for opr in oprs:
+            for i in request.POST["data"]:
+                if (i[0]==opr.id):
+                    opr.orden_cola_produccion = i[1]
+                    opr.save()
+                    salvado = True
+            
+            if (salvado == False):
+                opr.orden_cola_produccion = -1
+                opr.save()
+            
+            salvado = False
+
+    return HttpResponse('ok',content_type='application/json', status=200) 
+
+@crsf_protect
+def maquina_opr_actualiza2(request, id):
+
+    '''
+    POST2 = {
+        "data" : [
+            {"id_opr": 101, "orden_cola" : 1},
+            {"id_opr": 105, "orden_cola" : 2},
+            {"id_opr": 106, "orden_cola" : 4} 
+        ]
+    }
+    '''
+    if(request.POST):
+        print(request.POST)
+        
+        oprs = OrdenDeProduccion.objects.filter(maquina_asignada = id)
+        
+        salvado = False 
+        for opr in oprs:
+            for i in request.POST["data"]:
+                if (i.id_opr==opr.id):
+                    opr.orden_cola_produccion = i.orden_cola
+                    opr.save()
+                    salvado = True
+            
+            if (salvado == False):
+                opr.orden_cola_produccion = -1
+                opr.save()
+            
+            salvado = False
+
+    return HttpResponse('ok',content_type='application/json', status=200) 
+
+
+
+
+
 
 def oprs_json(request):
     '''

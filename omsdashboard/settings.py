@@ -39,11 +39,12 @@ BASE_APPS = [
     'django.contrib.staticfiles',
 ]
 
-THIRD_PARTY_APPS = ['corsheaders']
+CREATED_APPS = [
+]
 
-CREATED_APPS = ['supervisor']
-
-INSTALLED_APPS = BASE_APPS+CREATED_APPS+THIRD_PARTY_APPS
+INSTALLED_APPS = BASE_APPS+CREATED_APPS+[ 
+    'corsheaders'
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

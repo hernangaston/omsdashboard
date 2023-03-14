@@ -15,4 +15,5 @@ urlpatterns = [
 
     #------post para actualizar el orden en la cola de produccion de los opr de una maquina
     path('maquina_opr_actualiza/<int:id>', maquina_opr_actualiza, name='maquina-opr-actualiza'),
+    path('maquina_opr_actualiza2/<int:id>', maquina_opr_actualiza2, name='maquina-opr-actualiza2'),
 ]

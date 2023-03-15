@@ -4,7 +4,7 @@ from django.core import serializers
 from django.views.generic import ListView
 from django.http import HttpResponse, JsonResponse
 from itertools import chain
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
 
 # Create your views here.
 
@@ -95,7 +95,7 @@ def maquina_opr_json(request, id):
 #               OPR                  ------------------------------------------
 
 
-@csrf_protect
+@csrf_exempt
 def maquina_opr_actualiza(request, id):
 
     '''
@@ -109,11 +109,11 @@ def maquina_opr_actualiza(request, id):
         
         #print(type(request.POST)) #django.http.request.QueryDict'
         data = request.POST
-        print(data)
+        #print(data)
         salvado = False
         for opr in oprs:
             if (data.__contains__(str(opr.id))):
-                print('equivalencia')
+                #print('equivalencia')
                 opr.orden_cola_produccion = int(data.__getitem__(str(opr.id)))
                 opr.save()
                 salvado = True

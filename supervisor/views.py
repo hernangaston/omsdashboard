@@ -220,7 +220,7 @@ class CardsOprListMaquinaView(ListView):
                     operario=''
             
             maq = Maquina.objects.get(pk=opr.maquina_asignada)
-            d = dict(nombre_opr=opr.nombre_OPR, opr_fecha_caducidad=opr.fecha_caducidad,cantidad_articulo=opr.cantidad_articulo,maquina_id_maquina=maq.pk,\
+            d = dict(id_opr=opr.pk, nombre_opr=opr.nombre_OPR, opr_fecha_caducidad=opr.fecha_caducidad,cantidad_articulo=opr.cantidad_articulo,maquina_id_maquina=maq.pk,\
                     maquina=maq.nombre_maquina, orden_en_cola=opr.orden_cola_produccion, articulo_numero_articulo_a_producir=art.numero,\
                     maquina_estado=maq.estado,maquina_operario=maq.operario.nombre_completo,maquina_activo_desde=maq.activo_desde,\
                     maquina_tiempo_actual_con_articulo=maq.tiempo_actual_con_articulo,maquina_cantidad_producidos=maq.cantidad_producidos,maquina_automatica=maq.maquina_automatica,\

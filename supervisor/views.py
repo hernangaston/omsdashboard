@@ -6,7 +6,6 @@ from django.http import HttpResponse, JsonResponse
 from itertools import chain
 from django.views.decorators.csrf import csrf_protect
 
-
 # Create your views here.
 
 from .models import Operario, Maquina, OrdenDeProduccion, Articulo, Scatola
@@ -96,28 +95,30 @@ def maquina_opr_json(request, id):
 #               OPR                  ------------------------------------------
 
 
-@crsf_protect
+@csrf_protect
 def maquina_opr_actualiza(request, id):
 
     '''
-    POST = {
-        "data" : [ (101,1),(102,3),(202,-1)]
-    }
+    maquina id = 2
+     {'548': ['1'], '541': ['2'], '519': ['3'], '514': ['4'], '550': ['5'], '558': ['6']}
     '''
 
     if(request.POST):
-        print(request.POST)
-        
+
         oprs = OrdenDeProduccion.objects.filter(maquina_asignada = id)
         
-        salvado = False 
+        #print(type(request.POST)) #django.http.request.QueryDict'
+        data = request.POST
+        print(data)
+        salvado = False
         for opr in oprs:
-            for i in request.POST["data"]:
-                if (i[0]==opr.id):
-                    opr.orden_cola_produccion = i[1]
-                    opr.save()
-                    salvado = True
-            
+            if (data.__contains__(str(opr.id))):
+                print('equivalencia')
+                opr.orden_cola_produccion = int(data.__getitem__(str(opr.id)))
+                opr.save()
+                salvado = True
+
+
             if (salvado == False):
                 opr.orden_cola_produccion = -1
                 opr.save()
@@ -125,43 +126,6 @@ def maquina_opr_actualiza(request, id):
             salvado = False
 
     return HttpResponse('ok',content_type='application/json', status=200) 
-
-@crsf_protect
-def maquina_opr_actualiza2(request, id):
-
-    '''
-    POST2 = {
-        "data" : [
-            {"id_opr": 101, "orden_cola" : 1},
-            {"id_opr": 105, "orden_cola" : 2},
-            {"id_opr": 106, "orden_cola" : 4} 
-        ]
-    }
-    '''
-    if(request.POST):
-        print(request.POST)
-        
-        oprs = OrdenDeProduccion.objects.filter(maquina_asignada = id)
-        
-        salvado = False 
-        for opr in oprs:
-            for i in request.POST["data"]:
-                if (i.id_opr==opr.id):
-                    opr.orden_cola_produccion = i.orden_cola
-                    opr.save()
-                    salvado = True
-            
-            if (salvado == False):
-                opr.orden_cola_produccion = -1
-                opr.save()
-            
-            salvado = False
-
-    return HttpResponse('ok',content_type='application/json', status=200) 
-
-
-
-
 
 
 def oprs_json(request):

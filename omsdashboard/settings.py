@@ -147,4 +147,3 @@ USE_TZ = True
 STATIC_URL = '/dist/'
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR,'dist/'),)
-

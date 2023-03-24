@@ -26,7 +26,14 @@ SECRET_KEY = 'v22_)^wi5pev8zn%rqral-$^6(2%ng60zy5f2!6mi5-sx!hjq='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['186.65.87.251', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['186.65.87.251', 'localhost', '127.0.0.1', 'devomas.net', 'f2a9-186-65-87-251.sa.ngrok.io']
+
+'''
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+'''
 
 # Application definition
 
@@ -39,7 +46,9 @@ BASE_APPS = [
     'django.contrib.staticfiles',
 ]
 
-THIRD_PARTY_APPS = ['corsheaders']
+THIRD_PARTY_APPS = [
+	'corsheaders',
+]
 
 CREATED_APPS = ['supervisor']
 
@@ -144,6 +153,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/dist/'
+STATIC_URL = '/static/'
 
-STATICFILES_DIRS = (os.path.join(BASE_DIR,'dist/'),)
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    '/static/',
+]

@@ -102,29 +102,36 @@ def maquina_opr_actualiza(request, id):
     maquina id = 2
      {'548': ['1'], '541': ['2'], '519': ['3'], '514': ['4'], '550': ['5'], '558': ['6']}
     '''
+    
+    '''salvado = False
+    for opr in oprs:
+        if (data.__contains__(str(opr.id))):
+            #print('equivalencia')
+            opr.orden_cola_produccion = int(data.__getitem__(str(opr.id)))
+            print(opr)
+            #opr.save()
+            salvado = True
 
-    if(request.POST):
 
-        oprs = OrdenDeProduccion.objects.filter(maquina_asignada = id)
+        if (salvado == False):
+            opr.orden_cola_produccion = -1
+            #opr.save()
         
-        #print(type(request.POST)) #django.http.request.QueryDict'
-        data = request.POST
-        #print(data)
-        salvado = False
-        for opr in oprs:
-            if (data.__contains__(str(opr.id))):
-                #print('equivalencia')
-                opr.orden_cola_produccion = int(data.__getitem__(str(opr.id)))
+        salvado = False'''
+    if request.method == 'POST':
+        data = json.loads(request.body)['data']    
+        orden = 1
+        for d in data:
+            try:
+                opr = OrdenDeProduccion.objects.get(pk=d['id_opr'])
+                opr.orden_cola_produccion = orden
+                orden+=1
+                #print(f'Nombre opr: {opr.nombre_OPR},Orden: {opr.orden_cola_produccion}')
                 opr.save()
-                salvado = True
-
-
-            if (salvado == False):
-                opr.orden_cola_produccion = -1
-                opr.save()
-            
-            salvado = False
-
+            except:
+                print('no puede acceder a la opr')
+                return HttpResponse('Error',content_type='application/json', status=400)
+        
     return HttpResponse('ok',content_type='application/json', status=200) 
 
 

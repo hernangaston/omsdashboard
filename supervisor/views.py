@@ -41,16 +41,17 @@ class ListaTotalDeMaquinas(ListView):
         return HttpResponse(data, content_type='application/json', status=200)
         
         
-        
+
 def maquinas_json(request):
     '''
     FUNCION PARA DEVOLVER EN FORMATO JSON LOS DATOS DE TODAS LAS MAQUINAS
     MODIFICADO PARA QUEDEVUELVA nombre_OPR actual y siguiente
     '''
-    
     lista_rta = []
     qs = Maquina.objects.all()
-    
+    '''from .helpers import ingresar_fechas
+    d = ingresar_fechas()
+    print(d)'''
     for maq in qs:
         oprs = OrdenDeProduccion.objects.filter(maquina_asignada=maq.pk).filter(orden_cola_produccion__gt=0).order_by('orden_cola_produccion')
         new_dict = dict(nombre_maquina=maq.nombre_maquina, estado=maq.estado,operario=maq.operario.nombre_completo,\
@@ -58,7 +59,7 @@ def maquinas_json(request):
                 maquina_automatica=maq.maquina_automatica)
         if(len(oprs)):
             new_dict['opr_actual_nombre_OPR'] = oprs[0].nombre_OPR
-            new_dict['opr_actual_fecha_caducidad'] = oprs[0].fecha_caducidad
+            new_dict['opr_actual_fecha_caducidad'] = str(oprs[0].fecha_caducidad)
             new_dict['opr_actual_fecha_inicio_produccion'] = oprs[0].fecha_inicio_produccion
             new_dict['opr_actual_fecha_finalizado'] = oprs[0].fecha_finalizado
             new_dict['opr_actual_numero_articulo_a_producir'] = oprs[0].numero_articulo_a_producir
@@ -118,10 +119,27 @@ def maquina_opr_actualiza(request, id):
             #opr.save()
         
         salvado = False'''
+        
+    '''[{'id_opr': 506, 'nombre_opr': 'OPR23-0001570', 'opr_fecha_caducidad': None,
+      'cantidad_articulo': 200, 'maquina_id_maquina': 5, 'maquina': 'Piegatrice 05',
+      'orden_en_cola': 2, 'articulo_numero_articulo_a_producir': 70030005750,
+      'maquina_estado': 'Inizio lavorazione', 'maquina_operario': 'Gattini Roberto',
+      'maquina_activo_desde': 152, 'maquina_tiempo_actual_con_articulo': 201, 'maquina_cantidad_producidos': 56,
+      'maquina_automatica': True, 'articulo_nombre_articulo': 'VASCHETTA', 'articulo_materia_prima_nombre': 70020002815,
+      'articulo_cantidad_area': 200, 'articulo_cantidad_deposito': 200, 'articulo_cantidad_total': 400,
+      'articulo_tiempo_produccion': 2, 'articulo_tiempo_attressaggio': 38, 'articulo_tiempo_real': 1.8,
+      'articulo_operario_mas_rapido': 'Grillenzoni Daniele', 'articulo_disenio': 'http://186.65.85.243/disenio_prueba.pdf'},
+     {'id_opr': 504, 'nombre_opr': 'OPR23-0001552', 'opr_fecha_caducidad': None, 'cantidad_articulo': 352, 'maquina_id_maquina': 5,
+      'maquina': 'Piegatrice 05', 'orden_en_cola': 3, 'articulo_numero_articulo_a_producir': 70030005498, 'maquina_estado': 'Inizio lavorazione',
+      'maquina_operario': 'Gattini Roberto', 'maquina_activo_desde': 152, 'maquina_tiempo_actual_con_articulo': 201, 'maquina_cantidad_producidos': 56,
+      'maquina_automatica': True, 'articulo_nombre_articulo': 'PIASTRINO', 'articulo_materia_prima_nombre': 70020002569, 'articulo_cantidad_area': 352, 'articulo_cantidad_deposito': 0, 'articulo_cantidad_total': 352, 'articulo_tiempo_produccion': 0.7, 'articulo_tiempo_attressaggio': 100, 'articulo_tiempo_real': 1, 'articulo_operario_mas_rapido': 'Grillenzoni Daniele', 'articulo_disenio': 'http://186.65.85.243/disenio_prueba.pdf'}]'''
+    
     if request.method == 'POST':
-        data = json.loads(request.body)['data']    
+        data = json.loads(json.dumps(request.body))    
+                
         orden = 1
-        for d in data:
+        print(data)
+        '''for d in data:
             try:
                 opr = OrdenDeProduccion.objects.get(pk=d['id_opr'])
                 opr.orden_cola_produccion = orden
@@ -130,7 +148,7 @@ def maquina_opr_actualiza(request, id):
                 opr.save()
             except:
                 print('no puede acceder a la opr')
-                return HttpResponse('Error',content_type='application/json', status=400)
+                return HttpResponse('Error',content_type='application/json', status=400)'''
         
     return HttpResponse('ok',content_type='application/json', status=200) 
 
@@ -188,7 +206,7 @@ class CardsOprListView(ListView):
                     operario=''
             
             maq = Maquina.objects.get(pk=opr.maquina_asignada)
-            d = dict(nombre_opr=opr.nombre_OPR,opr_fecha_caducidad=opr.fecha_caducidad, cantidad_articulo=opr.cantidad_articulo,maquina_id_maquina=maq.pk,\
+            d = dict(nombre_opr=opr.nombre_OPR,opr_fecha_caducidad=str(opr.fecha_caducidad), cantidad_articulo=opr.cantidad_articulo,maquina_id_maquina=maq.pk,\
                     maquina=maq.nombre_maquina, orden_en_cola=opr.orden_cola_produccion, articulo_numero_articulo_a_producir=art.numero,\
                     maquina_estado=maq.estado,maquina_operario=maq.operario.nombre_completo,maquina_activo_desde=maq.activo_desde,\
                     maquina_tiempo_actual_con_articulo=maq.tiempo_actual_con_articulo,maquina_cantidad_producidos=maq.cantidad_producidos,maquina_automatica=maq.maquina_automatica,\

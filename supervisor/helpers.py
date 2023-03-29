@@ -106,3 +106,38 @@ def cargar_datos_maquinas():
                 maquina.maquina_automatica=True
             
             #maquina.save()
+from datetime import datetime, date            
+def ingresar_fechas():
+    qs = OrdenDeProduccion.objects.all().order_by('nombre_OPR')
+    for q in qs:
+        q.fecha_caducidad=None
+        q.save()
+    data=[]
+    '''old_date= date(2022, 8, 14)
+    present_date= date(2023, 4, 28)
+    future_date= date(2024, 1, 1)
+    for idx, opr in enumerate(qs):
+        if idx<=33:
+            try:
+                opr.fecha_caducidad=old_date
+                #opr.save()
+                print('fecha guardada')
+            except:
+                print('no se pudo guardar fecha')
+        elif idx>33 and idx<=66:
+            try:
+                opr.fecha_caducidad=present_date
+                #opr.save()
+                print('fecha guardada')
+            except:
+                print('no se pudo guardar fecha')
+        else:
+            try:
+                opr.fecha_caducidad=future_date
+                #opr.save()
+                print('fecha guardada')
+            except:
+                print('no se pudo guardar fecha')
+            
+        data.append((idx, opr.nombre_OPR))'''
+    return data

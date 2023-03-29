@@ -70,7 +70,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ORIGIN_WHITELIST = (
   'http://localhost:8000','https://omas-alpha.vercel.app'
 )
-
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 ROOT_URLCONF = 'omsdashboard.urls'
 
 TEMPLATES = [

@@ -49,9 +49,7 @@ def maquinas_json(request):
     '''
     lista_rta = []
     qs = Maquina.objects.all()
-    '''from .helpers import ingresar_fechas
-    d = ingresar_fechas()
-    print(d)'''
+    
     for maq in qs:
         oprs = OrdenDeProduccion.objects.filter(maquina_asignada=maq.pk).filter(orden_cola_produccion__gt=0).order_by('orden_cola_produccion')
         new_dict = dict(nombre_maquina=maq.nombre_maquina, estado=maq.estado,operario=maq.operario.nombre_completo,\

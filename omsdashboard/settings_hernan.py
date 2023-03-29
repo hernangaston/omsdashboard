@@ -47,6 +47,7 @@ CREATED_APPS = ['supervisor']
 INSTALLED_APPS = BASE_APPS+CREATED_APPS+THIRD_PARTY_APPS
 
 CORS_ORIGIN_ALLOW_ALL = True
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 '''CORS_ORIGIN_WHITELIST = (
   'http://localhost:8000',

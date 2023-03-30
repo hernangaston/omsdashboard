@@ -108,20 +108,38 @@ def maquina_opr_actualiza(request, id):
     if request.method == 'POST':
         try:        
             data=json.loads(request.body.decode('utf-8'))
+            print(data)
         except:
             print('Error data')
             return HttpResponse('Error',content_type='application/json', status=400)
         orden = 1
-        for d in data['data']:        
-            try:
-                opr = OrdenDeProduccion.objects.get(pk=d['id_opr'])
-                opr.orden_cola_produccion = orden
-                orden+=1
-                #print(f'Nombre opr: {opr.nombre_OPR},Orden: {opr.orden_cola_produccion}')
-                opr.save()
-            except:
-                print('no puede acceder a la opr')
-                return HttpResponse('Error',content_type='application/json', status=400)
+        lista_id_opr = [d['id_opr'] for d in data['data']]
+        qs_total = OrdenDeProduccion.objects.filter(maquina_asignada=id)
+        qs_pendientes = OrdenDeProduccion.objects.filter(maquina_asignada=id).exclude(id__in=lista_id_opr)
+        print('total: ', qs_total.count())
+        print('pendientes: ', qs_pendientes.count())
+        if lista_id_opr:
+            for d in data['data']:        
+                try:
+                    opr = OrdenDeProduccion.objects.get(pk=d['id_opr'])
+                    opr.orden_cola_produccion = orden
+                    orden+=1
+                    #print(f'Nombre opr: {opr.nombre_OPR},Orden: {opr.orden_cola_produccion}')
+                    opr.save()
+                except:
+                    print('no puede acceder a la opr')
+                    return HttpResponse('Error',content_type='application/json', status=400)
+        else:
+            for qs in qs_total:
+                qs.orden_cola_produccion = -1
+                qs.save()
+        
+        for qs in qs_pendientes:
+            qs.orden_cola_produccion = -1
+            qs.save()
+        
+        
+        
         
     return HttpResponse('ok',content_type='application/json', status=200) 
 

@@ -1,4 +1,5 @@
 import random, json
+import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.core import serializers
 from django.views.generic import ListView
@@ -202,6 +203,15 @@ class CardsOprListView(ListView):
         return JsonResponse(lista_respuesta, safe=False)
 
 class CardsOprListMaquinaView(ListView):
+    '''
+    Ahi hablabamos con hernan de hacer un cambio en el endpoint que devuelve los OPRS
+    La fecha de caducidad de cada OPR se tiene que devolver en el formato dia-mes-año 
+    Y por otro lado, agregamos un campo mas que devuelve el endpoint y que va a ser:
+    estado_caducidad = "por vencer", "estado_caducidad" = "vencida", "estado_caducidad" = "vencimiento lejano"
+    [10:33, 29/3/2023] Julio Ruani: esos valores salen de comparar la fecha de caducidad de cada OPR con la fecha actual,
+    definamos que si la fecha de caducidad del OPR es del dia de hoy a 15 dias por delante.. es un vencimiento cercano.
+    Si faltan mas de 15 dias para su vencimiento.. es "vencimiento lejano"
+    '''
     class Meta:
         verbose_name = "Card"
         verbose_name_plural = "Cards"
@@ -229,7 +239,17 @@ class CardsOprListMaquinaView(ListView):
                     operario=''
             
             maq = Maquina.objects.get(pk=opr.maquina_asignada)
-            d = dict(id_opr=opr.pk, nombre_opr=opr.nombre_OPR, opr_fecha_caducidad=str(opr.fecha_caducidad),cantidad_articulo=opr.cantidad_articulo,maquina_id_maquina=maq.pk,\
+            
+            fecha_caducidad_formateada = datetime.date.strftime(opr.fecha_caducidad, '%d-%m-%Y')
+            tiempo_estado=datetime.date.today()
+            if opr.fecha_caducidad<tiempo_estado:
+                estado_caducidad='vencida'
+            elif opr.fecha_caducidad<=tiempo_estado+datetime.timedelta(days=15):
+                estado_caducidad='vencimiento cercano'
+            else:
+                estado_caducidad='vencimiento lejano'
+            
+            d = dict(id_opr=opr.pk, nombre_opr=opr.nombre_OPR, opr_fecha_caducidad=fecha_caducidad_formateada,estado_caducidad=estado_caducidad,cantidad_articulo=opr.cantidad_articulo,maquina_id_maquina=maq.pk,\
                     maquina=maq.nombre_maquina, orden_en_cola=opr.orden_cola_produccion, articulo_numero_articulo_a_producir=art.numero,\
                     maquina_estado=maq.estado,maquina_operario=maq.operario.nombre_completo,maquina_activo_desde=maq.activo_desde,\
                     maquina_tiempo_actual_con_articulo=maq.tiempo_actual_con_articulo,maquina_cantidad_producidos=maq.cantidad_producidos,maquina_automatica=maq.maquina_automatica,\

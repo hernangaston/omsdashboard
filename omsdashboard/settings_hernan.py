@@ -46,12 +46,12 @@ CREATED_APPS = ['supervisor']
 
 INSTALLED_APPS = BASE_APPS+CREATED_APPS+THIRD_PARTY_APPS
 
-CORS_ORIGIN_ALLOW_ALL = True
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
-
-'''CORS_ORIGIN_WHITELIST = (
-  'http://localhost:8000',
-)'''
+CORS_ALLOW_ALL_ORIGINS = True
+#CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = (
+  'http://localhost:8000','https://omas-alpha.vercel.app'
+)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -88,7 +88,7 @@ WSGI_APPLICATION = 'omsdashboard.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
+'''DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'omas',
@@ -97,14 +97,14 @@ DATABASES = {
         'HOST': config('MYSQL_HOST'),
         'PORT':'3306'        
     }
-}
+}'''
 
-'''DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
-}'''
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -142,6 +142,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/dist/'
+STATIC_URL = '/static/'
 
-STATICFILES_DIRS = (os.path.join(BASE_DIR,'dist/'),)
+#STATICFILES_DIRS = (os.path.join(BASE_DIR,'dist/'),)
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    '/static/',
+]

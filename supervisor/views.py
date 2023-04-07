@@ -51,9 +51,69 @@ def maquinas_json(request):
     lista_rta = []
     qs = Maquina.objects.all()
     
+    json_t = [
+    {
+        'tempo_di_attivita': 80,
+        'tiempo_attressaggio': 15,
+        'tiempo_sin_trabajar': 5,
+    },
+    {
+        'tempo_di_attivita': 70,
+        'tiempo_attressaggio': 10,
+        'tiempo_sin_trabajar': 20,
+    },
+    {
+        'tempo_di_attivita': 75,
+        'tiempo_attressaggio': 15,
+        'tiempo_sin_trabajar': 10,
+    },
+    {
+        'tempo_di_attivita': 60,
+        'tiempo_attressaggio': 15,
+        'tiempo_sin_trabajar': 25,
+    },
+    {
+        'tempo_di_attivita': 65,
+        'tiempo_attressaggio': 10,
+        'tiempo_sin_trabajar': 25,
+    },
+    {
+        'tempo_di_attivita': 85,
+        'tiempo_attressaggio': 10,
+        'tiempo_sin_trabajar': 5,
+    },
+    {
+        'tempo_di_attivita': 85,
+        'tiempo_attressaggio': 10,
+        'tiempo_sin_trabajar': 5,
+    },
+    {
+        'tempo_di_attivita': 84,
+        'tiempo_attressaggio': 9,
+        'tiempo_sin_trabajar': 4,
+    },
+    {
+        'tempo_di_attivita': 83,
+        'tiempo_attressaggio': 8,
+        'tiempo_sin_trabajar': 3,
+    },
+    {
+        'tempo_di_attivita': 82,
+        'tiempo_attressaggio': 7,
+        'tiempo_sin_trabajar': 2,
+    },
+    ]
+    #print(json_t[0]['tempo_di_attivita'])
+    count = 0
     for maq in qs:
         oprs = OrdenDeProduccion.objects.filter(maquina_asignada=maq.pk).filter(orden_cola_produccion__gt=0).order_by('orden_cola_produccion')
-        new_dict = dict(nombre_maquina=maq.nombre_maquina, estado=maq.estado,operario=maq.operario.nombre_completo,\
+        if len(qs)>count:
+            new_dict = dict(nombre_maquina=maq.nombre_maquina, estado=maq.estado,operario=maq.operario.nombre_completo,\
+                    activo_desde=maq.activo_desde,tiempo_actual_con_articulo=maq.tiempo_actual_con_articulo, cantidad_producidos=maq.cantidad_producidos,\
+                    maquina_automatica=maq.maquina_automatica, tempo_di_attivita=json_t[count]['tempo_di_attivita'], tiempo_attressaggio=json_t[count]['tiempo_attressaggio'],
+                    tiempo_sin_trabajar=json_t[count]['tiempo_sin_trabajar'])
+        else:
+            new_dict = dict(nombre_maquina=maq.nombre_maquina, estado=maq.estado,operario=maq.operario.nombre_completo,\
                 activo_desde=maq.activo_desde,tiempo_actual_con_articulo=maq.tiempo_actual_con_articulo, cantidad_producidos=maq.cantidad_producidos,\
                 maquina_automatica=maq.maquina_automatica)
         if(len(oprs)):
@@ -79,6 +139,7 @@ def maquinas_json(request):
         
       
         lista_rta.append(json.loads(json.dumps(new_dict)))
+        count+=1
     return JsonResponse(lista_rta, safe=False)
 
 def maquina_opr_json(request, id):

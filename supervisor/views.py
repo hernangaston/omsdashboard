@@ -51,67 +51,96 @@ def maquinas_json(request):
     lista_rta = []
     qs = Maquina.objects.all()
     
-    json_t = [
-    {
-        'tempo_di_attivita': 80,
-        'tiempo_attressaggio': 15,
-        'tiempo_sin_trabajar': 5,
+    json_t = [{ 
+        "ratios_mayor_1": 47,
+        "ratios_1": 18,
+        "ratios_menor_1": 35
+        "lavorando": 65,
+        "attressaggio": 15,
+        "spenta": 20,
     },
-    {
-        'tempo_di_attivita': 70,
-        'tiempo_attressaggio': 10,
-        'tiempo_sin_trabajar': 20,
+    {    
+        "ratios_mayor_1": 30,
+        "ratios_1": 20,
+        "ratios_menor_1": 50,
+        "lavorando": 70,
+        "attressaggio": 15,
+        "spenta": 15,
     },
-    {
-        'tempo_di_attivita': 75,
-        'tiempo_attressaggio': 15,
-        'tiempo_sin_trabajar': 10,
+    {   
+        "ratios_mayor_1": 25,
+        "ratios_1": 50,
+        "ratios_menor_1": 25,
+        "lavorando": 40,
+        "attressaggio": 5,
+        "spenta": 55,
     },
-    {
-        'tempo_di_attivita': 60,
-        'tiempo_attressaggio': 15,
-        'tiempo_sin_trabajar': 25,
+    {    
+        "ratios_mayor_1": 38,
+        "ratios_1": 24,
+        "ratios_menor_1": 38,
+        "lavorando": 65,
+        "attressaggio": 15,
+        "spenta": 20,
     },
-    {
-        'tempo_di_attivita': 65,
-        'tiempo_attressaggio': 10,
-        'tiempo_sin_trabajar': 25,
+    {    
+        "ratios_mayor_1": 45,
+        "ratios_1": 20,
+        "ratios_menor_1": 35,
+        "lavorando": 70,
+        "attressaggio": 20,
+        "spenta": 10,
     },
-    {
-        'tempo_di_attivita': 85,
-        'tiempo_attressaggio': 10,
-        'tiempo_sin_trabajar': 5,
+    {    
+        "ratios_mayor_1": 20,
+        "ratios_1": 65,
+        "ratios_menor_1": 15,
+        "lavorando": 65,
+        "attressaggio": 15,
+        "spenta": 20,
     },
-    {
-        'tempo_di_attivita': 83,
-        'tiempo_attressaggio': 12,
-        'tiempo_sin_trabajar': 5,
+    {    
+        "ratios_mayor_1": 45,
+        "ratios_1": 20,
+        "ratios_menor_1": 35,
+        "lavorando": 80,
+        "attressaggio": 15,
+        "spenta": 5,
     },
-    {
-        'tempo_di_attivita': 84,
-        'tiempo_attressaggio': 9,
-        'tiempo_sin_trabajar': 7,
+    {    
+        "ratios_mayor_1": 20,
+        "ratios_1": 20,
+        "ratios_menor_1": 60,
+        "lavorando": 30,
+        "attressaggio": 5,
+        "spenta": 65,
     },
-    {
-        'tempo_di_attivita': 83,
-        'tiempo_attressaggio': 3,
-        'tiempo_sin_trabajar': 14,
+    {    
+        "ratios_mayor_1": 30,
+        "ratios_1": 15,
+        "ratios_menor_1": 55,
+        "lavorando": 50,
+        "attressaggio": 8,
+        "spenta": 42,
     },
-    {
-        'tempo_di_attivita': 78,
-        'tiempo_attressaggio': 17,
-        'tiempo_sin_trabajar': 5,
-    },
-    ]
-    #print(json_t[0]['tempo_di_attivita'])
+    {    
+        "ratios_mayor_1": 30,
+        "ratios_1": 50,
+        "ratios_menor_1": 20,
+        "lavorando": 65,
+        "attressaggio": 15,
+        "spenta": 20,
+    },]
+    print(json_t[0]['tempo_di_attivita'])
     count = 0
     for maq in qs:
         oprs = OrdenDeProduccion.objects.filter(maquina_asignada=maq.pk).filter(orden_cola_produccion__gt=0).order_by('orden_cola_produccion')
         if len(qs)>count:
             new_dict = dict(nombre_maquina=maq.nombre_maquina, estado=maq.estado,operario=maq.operario.nombre_completo,\
                     activo_desde=maq.activo_desde,tiempo_actual_con_articulo=maq.tiempo_actual_con_articulo, cantidad_producidos=maq.cantidad_producidos,\
-                    maquina_automatica=maq.maquina_automatica, tempo_di_attivita=json_t[count]['tempo_di_attivita'], tiempo_attressaggio=json_t[count]['tiempo_attressaggio'],
-                    tiempo_sin_trabajar=json_t[count]['tiempo_sin_trabajar'])
+                    maquina_automatica=maq.maquina_automatica, ratios_mayor_1=json_t[count]['ratios_mayor_1'], ratios_1=json_t[count]['ratios_1'],\
+                    ratios_menor_1=json_t[count]['ratios_menor_1'],lavorando=json_t[count]['lavorando'],attressaggio=json_t[count]['attressaggio'],\
+                    spenta=json_t[count]['spenta'])
         else:
             new_dict = dict(nombre_maquina=maq.nombre_maquina, estado=maq.estado,operario=maq.operario.nombre_completo,\
                 activo_desde=maq.activo_desde,tiempo_actual_con_articulo=maq.tiempo_actual_con_articulo, cantidad_producidos=maq.cantidad_producidos,\

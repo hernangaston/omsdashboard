@@ -83,24 +83,24 @@ def maquinas_json(request):
         'tiempo_sin_trabajar': 5,
     },
     {
-        'tempo_di_attivita': 85,
-        'tiempo_attressaggio': 10,
+        'tempo_di_attivita': 83,
+        'tiempo_attressaggio': 12,
         'tiempo_sin_trabajar': 5,
     },
     {
         'tempo_di_attivita': 84,
         'tiempo_attressaggio': 9,
-        'tiempo_sin_trabajar': 4,
+        'tiempo_sin_trabajar': 7,
     },
     {
         'tempo_di_attivita': 83,
-        'tiempo_attressaggio': 8,
-        'tiempo_sin_trabajar': 3,
+        'tiempo_attressaggio': 3,
+        'tiempo_sin_trabajar': 14,
     },
     {
-        'tempo_di_attivita': 82,
-        'tiempo_attressaggio': 7,
-        'tiempo_sin_trabajar': 2,
+        'tempo_di_attivita': 78,
+        'tiempo_attressaggio': 17,
+        'tiempo_sin_trabajar': 5,
     },
     ]
     #print(json_t[0]['tempo_di_attivita'])

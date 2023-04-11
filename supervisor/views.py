@@ -51,87 +51,89 @@ def maquinas_json(request):
     lista_rta = []
     qs = Maquina.objects.all()
     
-    json_t = [{ 
-        "ratios_mayor_1": 47,
-        "ratios_1": 18,
-        "ratios_menor_1": 35
-        "lavorando": 65,
-        "attressaggio": 15,
-        "spenta": 20,
-    },
-    {    
-        "ratios_mayor_1": 30,
-        "ratios_1": 20,
-        "ratios_menor_1": 50,
-        "lavorando": 70,
-        "attressaggio": 15,
-        "spenta": 15,
-    },
-    {   
-        "ratios_mayor_1": 25,
-        "ratios_1": 50,
-        "ratios_menor_1": 25,
-        "lavorando": 40,
-        "attressaggio": 5,
-        "spenta": 55,
-    },
-    {    
-        "ratios_mayor_1": 38,
-        "ratios_1": 24,
-        "ratios_menor_1": 38,
-        "lavorando": 65,
-        "attressaggio": 15,
-        "spenta": 20,
-    },
-    {    
-        "ratios_mayor_1": 45,
-        "ratios_1": 20,
-        "ratios_menor_1": 35,
-        "lavorando": 70,
-        "attressaggio": 20,
-        "spenta": 10,
-    },
-    {    
-        "ratios_mayor_1": 20,
-        "ratios_1": 65,
-        "ratios_menor_1": 15,
-        "lavorando": 65,
-        "attressaggio": 15,
-        "spenta": 20,
-    },
-    {    
-        "ratios_mayor_1": 45,
-        "ratios_1": 20,
-        "ratios_menor_1": 35,
-        "lavorando": 80,
-        "attressaggio": 15,
-        "spenta": 5,
-    },
-    {    
-        "ratios_mayor_1": 20,
-        "ratios_1": 20,
-        "ratios_menor_1": 60,
-        "lavorando": 30,
-        "attressaggio": 5,
-        "spenta": 65,
-    },
-    {    
-        "ratios_mayor_1": 30,
-        "ratios_1": 15,
-        "ratios_menor_1": 55,
-        "lavorando": 50,
-        "attressaggio": 8,
-        "spenta": 42,
-    },
-    {    
-        "ratios_mayor_1": 30,
-        "ratios_1": 50,
-        "ratios_menor_1": 20,
-        "lavorando": 65,
-        "attressaggio": 15,
-        "spenta": 20,
-    },]
-    print(json_t[0]['tempo_di_attivita'])
+    json_t=[
+        {
+            'ratios_mayor_1': 47,
+            'ratios_1': 18,
+            'ratios_menor_1': 35,
+            'lavorando': 65,
+            'attressaggio': 15,
+            'spenta': 20,
+        },
+        {    
+            'ratios_mayor_1': 30,
+            'ratios_1': 20,
+            'ratios_menor_1': 50,
+            'lavorando': 70,
+            'attressaggio': 15,
+            'spenta': 15,
+        },
+        {   
+            'ratios_mayor_1': 25,
+            'ratios_1': 50,
+            'ratios_menor_1': 25,
+            'lavorando': 40,
+            'attressaggio': 5,
+            'spenta': 55,
+        },
+        {    
+            'ratios_mayor_1': 38,
+            'ratios_1': 24,
+            'ratios_menor_1': 38,
+            'lavorando': 65,
+            'attressaggio': 15,
+            'spenta': 20,
+        },
+        {    
+            'ratios_mayor_1': 45,
+            'ratios_1': 20,
+            'ratios_menor_1': 35,
+            'lavorando': 70,
+            'attressaggio': 20,
+            'spenta': 10,
+        },
+        {    
+            'ratios_mayor_1': 20,
+            'ratios_1': 65,
+            'ratios_menor_1': 15,
+            'lavorando': 65,
+            'attressaggio': 15,
+            'spenta': 20,
+        },
+        {    
+            'ratios_mayor_1': 45,
+            'ratios_1': 20,
+            'ratios_menor_1': 35,
+            'lavorando': 80,
+            'attressaggio': 15,
+            'spenta': 5,
+        },
+        {    
+            'ratios_mayor_1': 20,
+            'ratios_1': 20,
+            'ratios_menor_1': 60,
+            'lavorando': 30,
+            'attressaggio': 5,
+            'spenta': 65,
+        },
+        {    
+            'ratios_mayor_1': 30,
+            'ratios_1': 15,
+            'ratios_menor_1': 55,
+            'lavorando': 50,
+            'attressaggio': 8,
+            'spenta': 42,
+        },
+        {    
+            'ratios_mayor_1': 30,
+            'ratios_1': 50,
+            'ratios_menor_1': 20,
+            'lavorando': 65,
+            'attressaggio': 15,
+            'spenta': 20,
+        }
+    ]
+    print(json_t[0])
     count = 0
     for maq in qs:
         oprs = OrdenDeProduccion.objects.filter(maquina_asignada=maq.pk).filter(orden_cola_produccion__gt=0).order_by('orden_cola_produccion')

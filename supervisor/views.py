@@ -133,7 +133,7 @@ def maquinas_json(request):
             'spenta': 20,
         }
     ]
-    print(json_t[0])
+    
     count = 0
     for maq in qs:
         oprs = OrdenDeProduccion.objects.filter(maquina_asignada=maq.pk).filter(orden_cola_produccion__gt=0).order_by('orden_cola_produccion')

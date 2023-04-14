@@ -189,15 +189,6 @@ def maquina_opr_json(request, id):
 
 @csrf_exempt
 def maquina_opr_actualiza(request, id):
-
-    '''
-    maquina id = 2
-     {'548': ['1'], '541': ['2'], '519': ['3'], '514': ['4'], '550': ['5'], '558': ['6']}
-    '''
-        
-    #data_test = b'{"data":[{"id_opr":506,"nombre_opr":"OPR23-0001570","opr_fecha_caducidad":null,"cantidad_articulo":200,"maquina_id_maquina":5,"maquina":"Piegatrice 05","orden_en_cola":2,"articulo_numero_articulo_a_producir":70030005750,"maquina_estado":"Inizio lavorazione","maquina_operario":"Gattini Roberto","maquina_activo_desde":152,"maquina_tiempo_actual_con_articulo":201,"maquina_cantidad_producidos":56,"maquina_automatica":true,"articulo_nombre_articulo":"VASCHETTA","articulo_materia_prima_nombre":70020002815,"articulo_cantidad_area":200,"articulo_cantidad_deposito":200,"articulo_cantidad_total":400,"articulo_tiempo_produccion":2,"articulo_tiempo_attressaggio":38,"articulo_tiempo_real":1.8,"articulo_operario_mas_rapido":"Grillenzoni Daniele","articulo_disenio":"http://186.65.85.243/disenio_prueba.pdf"},{"id_opr":504,"nombre_opr":"OPR23-0001552","opr_fecha_caducidad":null,"cantidad_articulo":352,"maquina_id_maquina":5,"maquina":"Piegatrice 05","orden_en_cola":3,"articulo_numero_articulo_a_producir":70030005498,"maquina_estado":"Inizio lavorazione","maquina_operario":"Gattini Roberto","maquina_activo_desde":152,"maquina_tiempo_actual_con_articulo":201,"maquina_cantidad_producidos":56,"maquina_automatica":true,"articulo_nombre_articulo":"PIASTRINO","articulo_materia_prima_nombre":70020002569,"articulo_cantidad_area":352,"articulo_cantidad_deposito":0,"articulo_cantidad_total":352,"articulo_tiempo_produccion":0.7,"articulo_tiempo_attressaggio":100,"articulo_tiempo_real":1,"articulo_operario_mas_rapido":"Grillenzoni Daniele","articulo_disenio":"http://186.65.85.243/disenio_prueba.pdf"}]}'
-
-    
     if request.method == 'POST':
         try:        
             data=json.loads(request.body.decode('utf-8'))
@@ -206,26 +197,18 @@ def maquina_opr_actualiza(request, id):
             return HttpResponse('Error',content_type='application/json', status=400)
         orden = 1
         lista_id_opr = [d['id_opr'] for d in data['data']]
-        
-        print(lista_id_opr)
-        qs_total = OrdenDeProduccion.objects.filter(maquina_asignada=id)
-        #qs_pendientes = OrdenDeProduccion.objects.filter(maquina_asignada=id).exclude(id__in=lista_id_opr)
+        qs_pendientes = OrdenDeProduccion.objects.filter(maquina_asignada=id).exclude(id__in=lista_id_opr)
         
         if lista_id_opr:
-            for d in data['data']:        
-                try:
-                    opr = OrdenDeProduccion.objects.get(pk=d['id_opr'])
-                    opr.orden_cola_produccion = orden
-                    orden+=1
-                    #print(f'Nombre opr: {opr.nombre_OPR},Orden: {opr.orden_cola_produccion}')
-                    opr.save()
-                except:
-                    print('no puede acceder a la opr')
-                    return HttpResponse('Error',content_type='application/json', status=400)
-        else:
-            for qs in qs_total:
-                qs.orden_cola_produccion = -1
-                qs.save()
+            for d in data['data']:
+                opr = OrdenDeProduccion.objects.get(pk=d['id_opr'])
+                opr.orden_cola_produccion = orden
+                orden+=1
+                opr.save()
+        
+        for opr in qs_pendientes:
+            opr.orden_cola_produccion=-1
+            opr.save()
         
     return HttpResponse('ok',content_type='application/json', status=200) 
 

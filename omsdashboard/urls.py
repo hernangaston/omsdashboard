@@ -23,5 +23,6 @@ urlpatterns = [
     path('', index, name='index'),
     path('home', index, name='index'),
     path('operation/<int:numero>', operation, name='operation'),
+    path('chart/', index, name='index'),
     path('supervisor/', include('supervisor.urls'))
 ]

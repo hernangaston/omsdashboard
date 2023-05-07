@@ -5,3 +5,6 @@ def index(request):
 
 def operation(request, numero):
     return render(request, 'index.html', context={'title':'Index', 'numero':numero})
+
+def remitos(request):
+    return render(request, 'remitos/remitos.html', context={'title':'Remitos'})

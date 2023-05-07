@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path, re_path
-from .views import index,operation
+from .views import index,operation, remitos
 from supervisor.views import CardsOprListMaquinaView
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,5 +26,12 @@ urlpatterns = [
     path('home', index, name='index'),
     path('operation/<int:numero>', operation, name='operation'),
     path('chart/', index, name='index'),
-    path('supervisor/', include('supervisor.urls'))
+    path('supervisor/', include('supervisor.urls')),
+    #-------REMITOS----------------------------------
+    path('remitos/', remitos, name='remitos'),
+    path('oda/', remitos, name='remitos'),
+    path('ddt/', remitos, name='remitos'),
+    path('fatture/', remitos, name='remitos')
 ]
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
